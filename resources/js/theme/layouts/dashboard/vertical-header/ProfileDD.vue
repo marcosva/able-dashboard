@@ -2,9 +2,20 @@
 import { ref } from 'vue'
 import SvgSprite from '../../../components/shared/SvgSprite.vue'
 import { useCustomizerStore } from '../../../stores/customizer'
+import { router } from '@inertiajs/vue3'
+
 
 const tab = ref(null)
 const customizer = useCustomizerStore()
+
+const handleAction = (item: any) => {
+  if (item.action === 'logout') {
+    router.post('/logout')
+  }
+}
+
+
+
 
 // 👇 ahora sin auth, nombre estático
 const userName = 'Guest'
@@ -13,8 +24,7 @@ const userName = 'Guest'
 const profiledata1 = ref([
   { title: 'Edit profile', icon: 'custom-edit' },
   { title: 'View Profile', icon: 'custom-user-1' },
-  { title: 'Social Profile', icon: 'custom-users' },
-  { title: 'Billing', icon: 'custom-wallet' }
+  { title: 'Log out', icon: 'custom-logout-1-outline', action: 'logout' }
 ])
 
 const profiledata2 = ref([
@@ -67,25 +77,48 @@ const profiledata2 = ref([
 
         <!-- TAB 1 -->
         <v-window-item value="111">
-          <v-list class="px-2">
-            <v-list-item
-              v-for="(item, index) in profiledata1"
-              :key="index"
-              rounded="md"
-              :base-color="customizer.actTheme === 'dark' ? 'lightText' : 'secondary'"
-            >
-              <template #prepend>
-                <div class="me-4">
-                  <SvgSprite :name="item.icon" style="width:18px;height:18px" />
-                </div>
-              </template>
+  <v-list class="px-2">
 
-              <v-list-item-title class="text-h6">
-                {{ item.title }}
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-window-item>
+    <template v-for="(item, index) in profiledata1" :key="index">
+
+      <!-- 🔴 LOGOUT COMO BOTÓN -->
+      <template v-if="item.action === 'logout'">
+        <v-divider class="my-3" />
+
+        <v-btn
+          block
+          color="error"
+          variant="tonal"
+          class="my-1"
+          @click="handleAction(item)"
+        >
+          <SvgSprite :name="item.icon" class="me-2" style="width:18px;height:18px" />
+          {{ item.title }}
+        </v-btn>
+      </template>
+
+      <!-- 🧩 ITEMS NORMALES -->
+      <template v-else>
+        <v-list-item
+          rounded="md"
+          :base-color="customizer.actTheme === 'dark' ? 'lightText' : 'secondary'"
+        >
+          <template #prepend>
+            <div class="me-4">
+              <SvgSprite :name="item.icon" style="width:18px;height:18px" />
+            </div>
+          </template>
+
+          <v-list-item-title class="text-h6">
+            {{ item.title }}
+          </v-list-item-title>
+        </v-list-item>
+      </template>
+
+    </template>
+
+  </v-list>
+</v-window-item>
 
         <!-- TAB 2 -->
         <v-window-item value="222">

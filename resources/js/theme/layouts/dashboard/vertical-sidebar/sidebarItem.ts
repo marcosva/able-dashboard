@@ -21,9 +21,11 @@ const sidebarItem: menu[] = [
   { header: 'dashboard' },
   {
     id: 'statistics',
-    title: 'Statistics',
+    title: 'Home',
     icon: 'custom-story',
-    to: '/widget/statistics'
+    to: '/dashboard',
+    getURL:true ,
+   
   },
   {
     id: 'data',

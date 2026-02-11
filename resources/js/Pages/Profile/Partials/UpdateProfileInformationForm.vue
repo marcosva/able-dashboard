@@ -18,50 +18,98 @@ const submit = () => {
 }
 </script>
 
+
+
 <template>
-    <section>
+  <section>
 
-        <div class="mb-6">
-            <h3 class="text-h6">Profile information</h3>
-            <p class="text-medium-emphasis">
-                Update your account's profile information and email address.
-            </p>
-        </div>
+    <!-- descripción -->
+    <div class="mb-4">
+        <h3 class="text-body-1 font-weight-medium mb-2 text-medium">Profile information</h3>
+      <p class="text-body-2 text-medium-emphasis">
+        Update your account's profile information and email address.
+      </p>
+    </div>
 
-        <v-form @submit.prevent="submit" class="d-flex flex-column ga-4">
+    <v-form @submit.prevent="submit" class="d-flex flex-column ga-8">
 
-            <!-- Name -->
-            <v-text-field v-model="form.name" label="Name" prepend-inner-icon="mdi-account" variant="outlined"
-                :error-messages="form.errors.name" />
+      <!-- Name -->
+      <v-text-field
+        v-model="form.name"
+        label="Name"
+        prepend-inner-icon="mdi-account"
+        variant="outlined"
+        density="compact"
+        hide-details="auto"
+        :error-messages="form.errors.name"
+      />
 
-            <!-- Email -->
-            <v-text-field v-model="form.email" label="Email" type="email" prepend-inner-icon="mdi-email"
-                variant="outlined" :error-messages="form.errors.email" />
+      <!-- Email -->
+      <v-text-field
+        v-model="form.email"
+        label="Email"
+        type="email"
+        prepend-inner-icon="mdi-email"
+        variant="outlined"
+        density="compact"
+        hide-details="auto"
+        :error-messages="form.errors.email"
+      />
 
-            <!-- Verify email -->
-            <v-alert v-if="mustVerifyEmail && user.email_verified_at === null" type="warning" variant="tonal">
-                Your email address is unverified.
+      <!-- Verify email -->
+      <v-alert
+        v-if="mustVerifyEmail && user.email_verified_at === null"
+        type="warning"
+        variant="tonal"
+        density="compact"
+        class="text-body-2"
+      >
+        Your email address is unverified.
 
-                <Link :href="route('verification.send')" method="post" as="button" class="ml-2 text-primary">
-                    Re-send verification
-                </Link>
-            </v-alert>
+        <Link
+          :href="route('verification.send')"
+          method="post"
+          as="button"
+          class="ml-2 text-primary text-decoration-underline"
+        >
+          Re-send verification
+        </Link>
+      </v-alert>
 
-            <v-alert v-if="status === 'verification-link-sent'" type="success" variant="tonal">
-                Verification link sent successfully.
-            </v-alert>
+      <!-- Success -->
+      <v-alert
+        v-if="status === 'verification-link-sent'"
+        type="success"
+        variant="tonal"
+        density="compact"
+        class="text-body-2"
+      >
+        Verification link sent successfully.
+      </v-alert>
 
-            <!-- Actions -->
-            <div class="d-flex align-center ga-4">
-                <v-btn type="submit" color="primary" :loading="form.processing">
-                    Save
-                </v-btn>
+      <!-- Actions -->
+      <div class="d-flex align-center ga-3 mt-2">
 
-                <span v-if="form.recentlySuccessful" class="text-success">
-                    Saved ✓
-                </span>
-            </div>
+        <v-btn
+          type="submit"
+          color="primary"
+          size="small"
+          :loading="form.processing"
+        >
+          Save
+        </v-btn>
 
-        </v-form>
-    </section>
+        <span
+          v-if="form.recentlySuccessful"
+          class="text-success text-body-2"
+        >
+          Saved ✓
+        </span>
+
+      </div>
+
+    </v-form>
+  </section>
 </template>
+
+

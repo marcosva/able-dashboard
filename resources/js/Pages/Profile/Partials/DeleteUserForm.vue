@@ -28,53 +28,92 @@ const closeModal = () => {
 </script>
 
 <template>
-    <section>
-        <!-- Header -->
-        <div class="mb-6">
-            <h3 class="text-h6 text-error">Danger zone</h3>
-            <p class="text-medium-emphasis">
-                Once your account is deleted, all resources and data will be permanently removed.
-            </p>
-        </div>
+  <section>
 
-        <!-- Delete button -->
-        <v-btn color="error" variant="tonal" @click="confirmUserDeletion">
-            Delete account
-        </v-btn>
+    <!-- Header -->
+    <div class="mb-4">
+      <h3 class="text-body-1 font-weight-medium mb-2 text-medium">
+        Danger zone
+      </h3>
 
-        <!-- Dialog -->
-        <v-dialog v-model="confirmingUserDeletion" max-width="500">
-            <v-card>
+      <p class="text-body-2 text-medium-emphasis">
+        Once your account is deleted, all resources and data will be permanently removed.
+      </p>
+    </div>
 
-                <v-card-title class="text-error">
-                    Delete account permanently?
-                </v-card-title>
+    <!-- Delete button -->
+    <v-btn
+      color="error"
+      variant="tonal"
+      size="small"
+      @click="confirmUserDeletion"
+    >
+      Delete account
+    </v-btn>
 
-                <v-card-text class="d-flex flex-column ga-4">
+    <!-- Dialog -->
+    <v-dialog
+      v-model="confirmingUserDeletion"
+      max-width="420"
+    >
+      <v-card class="pa-4">
 
-                    <v-alert type="warning" variant="tonal">
-                        This action cannot be undone.
-                    </v-alert>
+        <!-- Title -->
+        <v-card-title class="text-subtitle-1 font-weight-medium text-error pa-0 mb-2">
+          Delete account permanently?
+        </v-card-title>
 
-                    <v-text-field v-model="form.password" label="Confirm your password" type="password"
-                        variant="outlined" prepend-inner-icon="mdi-lock-alert" :error-messages="form.errors.password"
-                        @keyup.enter="deleteUser" />
+        <!-- Content -->
+        <v-card-text class="d-flex flex-column ga-3 pa-0">
 
-                </v-card-text>
+          <v-alert
+            type="warning"
+            variant="tonal"
+            density="compact"
+            class="text-body-2"
+          >
+            This action cannot be undone.
+          </v-alert>
 
-                <v-card-actions class="justify-end ga-2">
+          <v-text-field
+            v-model="form.password"
+            label="Confirm your password"
+            type="password"
+            variant="outlined"
+            density="compact"
+            hide-details="auto"
+            prepend-inner-icon="mdi-lock-alert"
+            :error-messages="form.errors.password"
+            @keyup.enter="deleteUser"
+          />
 
-                    <v-btn variant="text" @click="closeModal">
-                        Cancel
-                    </v-btn>
+        </v-card-text>
 
-                    <v-btn color="error" :loading="form.processing" @click="deleteUser">
-                        Delete permanently
-                    </v-btn>
+        <!-- Actions -->
+        <v-card-actions class="justify-end ga-2 mt-3 pa-0">
 
-                </v-card-actions>
+          <v-btn
+            variant="text"
+            size="small"
+            @click="closeModal"
+          >
+            Cancel
+          </v-btn>
 
-            </v-card>
-        </v-dialog>
-    </section>
+          <v-btn
+            color="error"
+            size="small"
+            :loading="form.processing"
+            @click="deleteUser"
+          >
+            Delete permanently
+          </v-btn>
+
+        </v-card-actions>
+
+      </v-card>
+    </v-dialog>
+
+  </section>
 </template>
+

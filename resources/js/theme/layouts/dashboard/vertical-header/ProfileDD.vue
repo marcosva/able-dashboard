@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import SvgSprite from '../../../components/shared/SvgSprite.vue'
 import { useCustomizerStore } from '../../../stores/customizer'
 import { router } from '@inertiajs/vue3'
+import { profile } from './data'
 
 
 const tab = ref(null)
@@ -81,7 +82,7 @@ const profiledata2 = ref([
 
     <template v-for="(item, index) in profiledata1" :key="index">
 
-      <!-- 🔴 LOGOUT COMO BOTÓN -->
+      <!--  LOGOUT  -->
       <template v-if="item.action === 'logout'">
         <v-divider class="my-3" />
 
@@ -97,11 +98,13 @@ const profiledata2 = ref([
         </v-btn>
       </template>
 
-      <!-- 🧩 ITEMS NORMALES -->
+      <!--ITEMS NORMALES -->
       <template v-else>
         <v-list-item
           rounded="md"
           :base-color="customizer.actTheme === 'dark' ? 'lightText' : 'secondary'"
+          @click="router.visit(route('profile.edit'))"
+          link
         >
           <template #prepend>
             <div class="me-4">

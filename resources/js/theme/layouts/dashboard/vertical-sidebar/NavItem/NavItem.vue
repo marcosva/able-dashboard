@@ -1,13 +1,14 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import SvgSprite from '../../../../components/shared/SvgSprite.vue'
+import { router } from '@inertiajs/vue3'
 
 const props = defineProps({
   item: Object,
   level: Number
 })
 
-const relativeURL = ref('')
+const relativeURL = ref('/dashboard')
 
 onMounted(() => {
   relativeURL.value = import.meta.env.BASE_URL || '/'
@@ -20,12 +21,12 @@ onMounted(() => {
   <!-- con URL relativa -->
   <v-list-item
     v-if="props.item.getURL === true"
-    :to="item.type === 'external' ? '' : item.to"
-    :href="`${relativeURL}${item.to}`"
+    @click="router.visit(item.to)"
     rounded
     color="primary"
     :disabled="item.disabled"
     :target="item.type === 'external' ? '_blank' : ''"
+    link
   >
     <template #prepend>
       <SvgSprite :name="props.item.icon || ''" :level="props.level" />

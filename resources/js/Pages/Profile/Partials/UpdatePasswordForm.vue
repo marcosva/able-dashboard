@@ -18,44 +18,83 @@ const updatePassword = () => {
 </script>
 
 <template>
-    <section>
-        <!-- Header -->
-        <div class="mb-6">
-            <h3 class="text-h6">Change password</h3>
-            <p class="text-medium-emphasis">
-                Ensure your account is using a long, random password to stay secure.
-            </p>
-        </div>
+  <section>
 
-        <!-- Form -->
-        <v-form @submit.prevent="updatePassword" class="d-flex flex-column ga-4">
+    <!-- Header -->
+    <div class="mb-4">
+      <h3 class="text-body-1 font-weight-medium mb-2 text-medium">
+        Change password
+      </h3>
 
-            <!-- Current password -->
-            <v-text-field v-model="form.current_password" label="Current password" type="password"
-                prepend-inner-icon="mdi-lock" variant="outlined" autocomplete="current-password"
-                :error-messages="form.errors.current_password" />
+      <p class="text-body-2 text-medium-emphasis">
+        Ensure your account is using a long, random password to stay secure.
+      </p>
+    </div>
 
-            <!-- New password -->
-            <v-text-field v-model="form.password" label="New password" type="password"
-                prepend-inner-icon="mdi-lock-plus" variant="outlined" autocomplete="new-password"
-                :error-messages="form.errors.password" />
+    <!-- Form -->
+    <v-form @submit.prevent="updatePassword" class="d-flex flex-column ga-8">
 
-            <!-- Confirm password -->
-            <v-text-field v-model="form.password_confirmation" label="Confirm password" type="password"
-                prepend-inner-icon="mdi-lock-check" variant="outlined" autocomplete="new-password"
-                :error-messages="form.errors.password_confirmation" />
+      <!-- Current password -->
+      <v-text-field
+        v-model="form.current_password"
+        label="Current password"
+        type="password"
+        prepend-inner-icon="mdi-lock"
+        variant="outlined"
+        density="compact"
+        hide-details="auto"
+        autocomplete="current-password"
+        :error-messages="form.errors.current_password"
+      />
 
-            <!-- Actions -->
-            <div class="d-flex align-center ga-4 mt-2">
-                <v-btn type="submit" color="primary" :loading="form.processing">
-                    Save
-                </v-btn>
+      <!-- New password -->
+      <v-text-field
+        v-model="form.password"
+        label="New password"
+        type="password"
+        prepend-inner-icon="mdi-lock-plus"
+        variant="outlined"
+        density="compact"
+        hide-details="auto"
+        autocomplete="new-password"
+        :error-messages="form.errors.password"
+      />
 
-                <span v-if="form.recentlySuccessful" class="text-success">
-                    Saved ✓
-                </span>
-            </div>
+      <!-- Confirm password -->
+      <v-text-field
+        v-model="form.password_confirmation"
+        label="Confirm password"
+        type="password"
+        prepend-inner-icon="mdi-lock-check"
+        variant="outlined"
+        density="compact"
+        hide-details="auto"
+        autocomplete="new-password"
+        :error-messages="form.errors.password_confirmation"
+      />
 
-        </v-form>
-    </section>
+      <!-- Actions -->
+      <div class="d-flex align-center ga-3 mt-2">
+
+        <v-btn
+          type="submit"
+          color="primary"
+          size="small"
+          :loading="form.processing"
+        >
+          Save
+        </v-btn>
+
+        <span
+          v-if="form.recentlySuccessful"
+          class="text-success text-body-2"
+        >
+          Saved ✓
+        </span>
+
+      </div>
+
+    </v-form>
+  </section>
 </template>
+

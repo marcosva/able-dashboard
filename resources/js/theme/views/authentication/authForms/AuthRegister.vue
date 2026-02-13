@@ -1,152 +1,139 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useForm, Link } from '@inertiajs/vue3'
+import { Head, useForm, Link } from '@inertiajs/vue3'
 import SvgSprite from '../../../components/shared/SvgSprite.vue'
 
 const show1 = ref(false)
+const show2 = ref(false)
 
 const form = useForm({
-  firstname: '',
-  lastname: '',
-  company: '',
+  name: '',
   email: '',
   password: '',
+  password_confirmation: '',
 })
 
-const submit = () => {
-  form.post(route('register'))
+cont submit = () => {
+  form.post(route('register'), {
+    onFinish: () => form.reset('password', 'password_confirmation'),
+  })
 }
 </script>
 
 <template>
+  <Head title="Register" />
+
   <div class="d-flex justify-space-between align-center">
-    <h3 class="text-h3 text-center mb-0">Sign up</h3>
+    <h3 class="text-h3 mb-0">Sign up</h3>
 
     <Link :href="route('login')" class="text-primary text-decoration-none">
       Already have an account?
     </Link>
   </div>
 
-  <v-form @submit.prevent="submit" class="mt-7 loginForm">
-    <v-row class="my-0">
-      <v-col cols="12" sm="6" class="py-0">
-        <div class="mb-6">
-          <v-label>First Name*</v-label>
-          <v-text-field
-            v-model="form.firstname"
-            hide-details="auto"
-            required
-            variant="outlined"
-            class="mt-2"
-            color="primary"
-            placeholder="John"
-          />
-        </div>
-      </v-col>
+  <v-form @submit.prevent="submit" class="mt-7">
 
-      <v-col cols="12" sm="6" class="py-0">
-        <div class="mb-6">
-          <v-label>Last Name*</v-label>
-          <v-text-field
-            v-model="form.lastname"
-            hide-details="auto"
-            required
-            variant="outlined"
-            class="mt-2"
-            color="primary"
-            placeholder="Doe"
-          />
-        </div>
-      </v-col>
-    </v-row>
-
+    <!-- NAME -->
     <div class="mb-6">
-      <v-label>Company</v-label>
+      <v-label>Name*</v-label>
       <v-text-field
-        v-model="form.company"
-        hide-details="auto"
+        v-model="form.name"
+        required
         variant="outlined"
         class="mt-2"
-        color="primary"
-        placeholder="Demo Inc."
       />
     </div>
 
+    <!-- EMAIL -->
     <div class="mb-6">
       <v-label>Email Address*</v-label>
       <v-text-field
         v-model="form.email"
-        placeholder="demo@company.com"
-        class="mt-2"
         required
-        hide-details="auto"
+        type="email"
         variant="outlined"
-        color="primary"
+        class="mt-2"
       />
     </div>
 
+    <!-- PASSWORD -->
     <div class="mb-6">
-      <v-label>Password</v-label>
+      <v-label>Password*</v-label>
       <v-text-field
         v-model="form.password"
-        placeholder="*****"
+        :type="show1 ? 'text' : 'password'"
         required
         variant="outlined"
-        color="primary"
-        hide-details="auto"
-        :type="show1 ? 'text' : 'password'"
-        class="pwdInput mt-2"
+        class="mt-2"
       >
         <template #append-inner>
-          <v-btn color="secondary" icon rounded variant="text">
+          <v-btn icon variant="text" @click="show1 = !show1">
             <SvgSprite
-              name="custom-eye-invisible"
+              :name="show1 ? 'custom-eye' : 'custom-eye-invisible'"
               style="width: 20px; height: 20px"
-              v-if="!show1"
-              @click="show1 = true"
-            />
-            <SvgSprite
-              name="custom-eye"
-              style="width: 20px; height: 20px"
-              v-else
-              @click="show1 = false"
             />
           </v-btn>
         </template>
       </v-text-field>
     </div>
 
-    <div class="d-sm-inline-flex align-center mt-2 mb-7 mb-sm-0 font-weight-bold">
+    <!-- CONFIRM PASSWORD -->
+    <div class="mb-6">
+      <v-label>Confirm Password*</v-label>
+      <v-text-field
+        v-model="form.password_confirmation"
+        :type="show2 ? 'text' : 'password'"
+        required
+        variant="outlined"
+        class="mt-2"
+      >
+        <template #append-inner>
+          <v-btn icon variant="text" @click="show2 = !show2">
+            <SvgSprite
+              :name="show2 ? 'custom-eye' : 'custom-eye-invisible'"
+              style="width: 20px; height: 20px"
+            />
+          </v-btn>
+        </template>
+      </v-text-field>
+    </div>
+
+    <!-- TERMS -->
+    <div class="d-sm-inline-flex align-center mt-2 mb-7 font-weight-bold">
       <h6 class="text-caption">
-        By Signing up, you agree to our
-        <Link href="#" class="text-primary link-hover font-weight-medium">
+        By signing up, you agree to our
+        <Link href="#" class="text-primary text-decoration-none">
           Terms of Service
         </Link>
         and
-        <Link href="#" class="text-primary link-hover font-weight-medium">
+        <Link href="#" class="text-primary text-decoration-none">
           Privacy Policy
         </Link>
       </h6>
     </div>
 
+    <!-- BUTTON -->
     <v-btn
       type="submit"
       color="primary"
       block
-      class="mt-4"
-      variant="flat"
-      rounded="md"
       size="large"
       :loading="form.processing"
     >
       Create Account
     </v-btn>
 
-    <div v-if="form.errors.email" class="mt-3">
-      <v-alert type="error" variant="tonal">
-        {{ form.errors.email }}
-      </v-alert>
-    </div>
+    <!-- ERRORS -->
+    <v-alert
+      v-if="Object.keys(form.errors).length"
+      type="error"
+      variant="tonal"
+      class="mt-4"
+    >
+      <div v-for="(error, key) in form.errors" :key="key">
+        {{ error }}
+      </div>
+    </v-alert>
+
   </v-form>
 </template>
-
